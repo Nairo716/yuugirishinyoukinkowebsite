@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>夕霧信用金庫</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1410;
+      --deep: #2c1810;
+      --gold: #b8936a;
+      --gold-light: #d4aa80;
+      --sand: #f5efe6;
+      --fog: #e8ddd0;
+      --mist: #f9f5f0;
+      --accent: #7a3b2e;
+      --green: #3d5a4a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background: var(--mist);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 4rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(249, 245, 240, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184, 147, 106, 0.2);
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-main {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--deep);
+      letter-spacing: 0.15em;
+    }
+
+    .logo-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      font-weight: 300;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    nav {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover { color: var(--gold); }
+    nav a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--deep);
+      color: var(--sand) !important;
+      padding: 8px 20px !important;
+      border-radius: 2px;
+      letter-spacing: 0.1em;
+    }
+
+    .nav-cta::after { display: none; }
+    .nav-cta:hover { background: var(--accent); color: var(--sand) !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 72px 0 0;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #f0e8dc 0%, #e8d8c4 40%, #d4c4b0 100%);
+    }
+
+    /* Decorative circles */
+    .hero-circle-1 {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,147,106,0.12) 0%, transparent 70%);
+      right: -100px; top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .hero-circle-2 {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,147,106,0.25);
+      right: 15%; top: 20%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero-circle-3 {
+      position: absolute;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,147,106,0.15);
+      right: 20%; bottom: 20%;
+      animation: float 6s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Kanji decoration */
+    .hero-kanji {
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 22rem;
+      font-weight: 600;
+      color: rgba(184, 147, 106, 0.08);
+      writing-mode: vertical-rl;
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 8rem;
+      max-width: 680px;
+      animation: heroIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 32px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 3.8rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--deep);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+    }
+
+    .hero-desc {
+      font-size: 0.9rem;
+      line-height: 2.2;
+      color: #5a4a3a;
+      font-weight: 300;
+      margin-bottom: 3rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--deep);
+      color: var(--sand);
+      padding: 14px 36px;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      border: none;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(44,24,16,0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--deep);
+      padding: 14px 36px;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      border: 1px solid rgba(44,24,16,0.3);
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-bar {
+      background: var(--deep);
+      padding: 12px 0;
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 4rem;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .marquee-item {
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      color: rgba(212, 170, 128, 0.8);
+      font-family: 'Noto Sans JP', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .marquee-item::after {
+      content: '◆';
+      font-size: 0.4rem;
+      color: var(--gold);
+    }
+
+    /* ─── SECTION BASE ─── */
+    section {
+      padding: 7rem 8rem;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--deep);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── SERVICES ─── */
+    .services {
+      background: var(--sand);
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(184,147,106,0.2);
+      border: 1.5px solid rgba(184,147,106,0.2);
+    }
+
+    .service-card {
+      background: var(--sand);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.4s;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .service-card:hover { background: #fff; }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      color: var(--deep);
+      opacity: 0.7;
+    }
+
+    .service-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--deep);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .service-desc {
+      font-size: 0.8rem;
+      line-height: 2;
+      color: #6a5a4a;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+    }
+
+    /* ─── ABOUT ─── */
+    .about {
+      background: var(--mist);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      padding: 7rem 8rem;
+    }
+
+    .about-visual {
+      position: relative;
+      height: 480px;
+    }
+
+    .about-box-main {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--deep), var(--accent));
+      border-radius: 4px;
+    }
+
+    .about-box-main-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .about-big-kanji {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 8rem;
+      color: rgba(255,255,255,0.08);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .about-years {
+      font-size: 0.72rem;
+      letter-spacing: 0.4em;
+      color: rgba(212,170,128,0.8);
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .about-year-num {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 4rem;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+    }
+
+    .about-box-accent {
+      position: absolute;
+      width: 180px; height: 180px;
+      background: var(--sand);
+      bottom: -24px;
+      right: -24px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    .about-stat-num {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2.8rem;
+      color: var(--deep);
+      line-height: 1;
+    }
+
+    .about-stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .about-text .section-title {
+      font-size: 2rem;
+    }
+
+    .about-body {
+      font-size: 0.85rem;
+      line-height: 2.4;
+      color: #5a4a3a;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.5rem;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(184,147,106,0.2);
+    }
+
+    .about-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-val {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.8rem;
+      color: var(--deep);
+    }
+
+    .stat-lbl {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* ─── NEWS ─── */
+    .news {
+      background: var(--fog);
+    }
+
+    .news-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: 120px auto 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid rgba(184,147,106,0.2);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    .news-item:hover .news-title-text {
+      color: var(--gold);
+    }
+
+    .news-date {
+      font-size: 0.75rem;
+      color: #8a7a6a;
+      font-family: 'Noto Sans JP', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .news-cat {
+      display: inline-block;
+      background: var(--deep);
+      color: var(--sand);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      padding: 3px 10px;
+      font-family: 'Noto Sans JP', sans-serif;
+      border-radius: 1px;
+    }
+
+    .news-title-text {
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      transition: color 0.3s;
+    }
+
+    .news-arrow {
+      color: var(--gold);
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.3s;
+    }
+
+    .news-item:hover .news-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      background: var(--deep);
+      padding: 6rem 8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '夕霧';
+      position: absolute;
+      right: 6%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 18rem;
+      color: rgba(255,255,255,0.03);
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .cta-text .section-label { color: var(--gold-light); }
+    .cta-text .section-label::before { background: var(--gold-light); }
+
+    .cta-text .section-title {
+      color: var(--sand);
+      font-size: 2rem;
+    }
+
+    .cta-text p {
+      font-size: 0.82rem;
+      color: rgba(245,239,230,0.6);
+      line-height: 2;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      max-width: 460px;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--deep);
+      padding: 16px 42px;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      border: none;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      color: var(--sand);
+      padding: 16px 42px;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      border: 1px solid rgba(245,239,230,0.3);
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+
+    .btn-outline-light:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #120e0a;
+      color: rgba(245,239,230,0.5);
+      padding: 4rem 8rem 2rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 2rem;
+    }
+
+    .footer-logo-main {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--sand);
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+
+    .footer-logo-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-about {
+      font-size: 0.75rem;
+      line-height: 2;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+    }
+
+    .footer-col h4 {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-family: 'Noto Sans JP', sans-serif;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.75rem;
+      color: rgba(245,239,230,0.45);
+      text-decoration: none;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: color 0.3s;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-col ul li a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,239,230,0.35);
+      text-decoration: none;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ─── SCROLL ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      section { padding: 5rem 4rem; }
+      header { padding: 0 2rem; }
+      .hero-content { padding: 0 4rem; }
+      .about { padding: 5rem 4rem; grid-template-columns: 1fr; gap: 3rem; }
+      .cta-banner { padding: 4rem; flex-direction: column; text-align: center; }
+      footer { padding: 3rem 2rem 1.5rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.4rem; }
+      .hero-kanji { display: none; }
+      nav { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .news-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .footer-top { grid-template-columns: 1fr; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-main">夕霧信用金庫</div>
+      <div class="logo-sub">YUGIRI SHINKIN BANK</div>
+    </div>
+    <nav>
+      <a href="#services">サービス</a>
+      <a href="#about">金庫案内</a>
+      <a href="#news">お知らせ</a>
+      <a href="#" class="nav-cta">窓口を探す</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-circle-1"></div>
+    <div class="hero-circle-2"></div>
+    <div class="hero-circle-3"></div>
+    <div class="hero-kanji">信</div>
+    <div class="hero-content">
+      <div class="hero-tag">夕霧信用金庫 ・ 地域とともに歩む</div>
+      <h1 class="hero-title">
+        地域に根ざした<br>
+        <span>信頼</span>と<span>絆</span>で、<br>
+        未来をひらく。
+      </h1>
+      <p class="hero-desc">
+        夕霧信用金庫は、昭和28年の創業以来、地域の皆さまの<br>
+        豊かな暮らしと産業の発展を支えてまいりました。<br>
+        変わらぬ誠実さで、これからも皆さまの隣に。
+      </p>
+      <div class="hero-buttons">
+        <a href="#services" class="btn-primary">サービス一覧 →</a>
+        <a href="#about" class="btn-secondary">金庫について</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar">
+    <div class="marquee-track">
+      <span class="marquee-item">個人向けローン</span>
+      <span class="marquee-item">事業資金サポート</span>
+      <span class="marquee-item">資産運用相談</span>
+      <span class="marquee-item">住宅ローン</span>
+      <span class="marquee-item">でんさいネット</span>
+      <span class="marquee-item">インターネットバンキング</span>
+      <span class="marquee-item">相続・遺言サポート</span>
+      <span class="marquee-item">個人向けローン</span>
+      <span class="marquee-item">事業資金サポート</span>
+      <span class="marquee-item">資産運用相談</span>
+      <span class="marquee-item">住宅ローン</span>
+      <span class="marquee-item">でんさいネット</span>
+      <span class="marquee-item">インターネットバンキング</span>
+      <span class="marquee-item">相続・遺言サポート</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header fade-up">
+      <div>
+        <div class="section-label">SERVICES</div>
+        <h2 class="section-title">充実したサービスで<br>皆さまの暮らしを支えます</h2>
+      </div>
+      <a href="#" class="btn-secondary" style="white-space:nowrap">すべてのサービス →</a>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-num">01</div>
+        <div class="service-icon">🏠</div>
+        <div class="service-name">住宅ローン</div>
+        <p class="service-desc">低金利・長期返済でご家族の夢のマイホームを全力サポート。専任のアドバイザーが最適なプランをご提案します。</p>
+      </div>
+      <div class="service-card fade-up" style="transition-delay:0.1s">
+        <div class="service-num">02</div>
+        <div class="service-icon">💼</div>
+        <div class="service-name">事業融資</div>
+        <p class="service-desc">地元中小企業・個人事業主の皆さまの成長を金融面から強力にバックアップ。創業融資・運転資金・設備投資に対応。</p>
+      </div>
+      <div class="service-card fade-up" style="transition-delay:0.2s">
+        <div class="service-num">03</div>
+        <div class="service-icon">📈</div>
+        <div class="service-name">資産運用</div>
+        <p class="service-desc">NISAや投資信託、個人年金保険まで、将来に向けた資産形成を丁寧にサポートします。</p>
+      </div>
+      <div class="service-card fade-up" style="transition-delay:0.3s">
+        <div class="service-num">04</div>
+        <div class="service-icon">🌿</div>
+        <div class="service-name">カードローン</div>
+        <p class="service-desc">急な出費やまとまった費用にも、柔軟な審査と低利率でお応えします。会員様には特別金利をご用意。</p>
+      </div>
+      <div class="service-card fade-up" style="transition-delay:0.4s">
+        <div class="service-num">05</div>
+        <div class="service-icon">💻</div>
+        <div class="service-name">ネットバンキング</div>
+        <p class="service-desc">いつでもどこでも残高照会・振込・税金の支払いが可能。スマートフォンアプリにも対応しています。</p>
+      </div>
+      <div class="service-card fade-up" style="transition-delay:0.5s">
+        <div class="service-num">06</div>
+        <div class="service-icon">🕊️</div>
+        <div class="service-name">相続・遺言サポート</div>
+        <p class="service-desc">大切な財産を次世代へ。専門家と連携した相続相談・遺言信託サービスで安心のサポートを提供します。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <div class="about" id="about">
+    <div class="about-visual fade-up">
+      <div class="about-box-main">
+        <div class="about-box-main-inner">
+          <div class="about-big-kanji">金</div>
+          <div class="about-years">SINCE 1953</div>
+          <div class="about-year-num">70<span style="font-size:2rem">年</span></div>
+        </div>
+      </div>
+      <div class="about-box-accent">
+        <div class="about-stat-num">48</div>
+        <div class="about-stat-label">店舗数</div>
+      </div>
+    </div>
+    <div class="about-text fade-up">
+      <div class="section-label">ABOUT US</div>
+      <h2 class="section-title">地域の未来を、<br>ともに描く金融機関</h2>
+      <p class="about-body">
+        夕霧信用金庫は昭和28年、地域の皆さまが出資し合って誕生した協同組織の金融機関です。株主の利益を最優先にする株式会社とは異なり、私たちは会員の皆さまと地域社会の繁栄を目的としています。<br><br>
+        創業以来70年以上にわたり、地域の中小企業や家庭に寄り添い、経済の変化や社会の転換期も地域の皆さまとともに乗り越えてきました。「夕霧」という名前には、夕暮れに立ちこめる霧のように、地域を穏やかに包み込みたいという思いを込めています。
+      </p>
+      <div class="about-stats">
+        <div class="about-stat-item">
+          <span class="stat-val">4,200<span style="font-size:1rem">億円</span></span>
+          <span class="stat-lbl">預金残高</span>
+        </div>
+        <div class="about-stat-item">
+          <span class="stat-val">2,800<span style="font-size:1rem">億円</span></span>
+          <span class="stat-lbl">貸出金残高</span>
+        </div>
+        <div class="about-stat-item">
+          <span class="stat-val">32,000<span style="font-size:1rem">社</span></span>
+          <span class="stat-lbl">会員事業者数</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWS -->
+  <section class="news" id="news">
+    <div class="news-header fade-up">
+      <div>
+        <div class="section-label">NEWS</div>
+        <h2 class="section-title">お知らせ・最新情報</h2>
+      </div>
+      <a href="#" class="btn-secondary">ニュース一覧 →</a>
+    </div>
+    <div class="news-list fade-up">
+      <div class="news-item">
+        <span class="news-date">2025.03.14</span>
+        <span class="news-cat">重要</span>
+        <span class="news-title-text">2025年度 春のローン金利キャンペーンのご案内</span>
+        <span class="news-arrow">→</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2025.03.10</span>
+        <span class="news-cat">採用</span>
+        <span class="news-title-text">2026年度 新卒採用エントリー受付開始のお知らせ</span>
+        <span class="news-arrow">→</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2025.03.05</span>
+        <span class="news-cat">IR</span>
+        <span class="news-title-text">令和6年度 第3四半期 財務データの開示について</span>
+        <span class="news-arrow">→</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2025.02.28</span>
+        <span class="news-cat">地域貢献</span>
+        <span class="news-title-text">「夕霧子ども食堂サポートファンド」への寄付実績のご報告</span>
+        <span class="news-arrow">→</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2025.02.20</span>
+        <span class="news-cat">システム</span>
+        <span class="news-title-text">インターネットバンキング リニューアルのお知らせ（3月30日予定）</span>
+        <span class="news-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner fade-up">
+    <div class="cta-text">
+      <div class="section-label">CONTACT</div>
+      <h2 class="section-title">お気軽にご相談ください</h2>
+      <p>住宅ローン、事業資金、老後の資産設計まで、経験豊富な担当者が丁寧にお答えします。来店予約、電話相談、オンライン面談など多様な方法でご対応しています。</p>
+    </div>
+    <div class="cta-actions">
+      <a href="#" class="btn-gold">来店予約はこちら</a>
+      <a href="#" class="btn-outline-light">電話でのご相談 ▸ 0120-XXX-XXX</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-main">夕霧信用金庫</div>
+        <div class="footer-logo-sub">YUGIRI SHINKIN BANK</div>
+        <p class="footer-about">
+          〒XXX-XXXX 千葉県夕霧市中央1-1-1<br>
+          TEL：0120-XXX-XXX（平日 9:00〜17:00）<br><br>
+          地域に寄り添う金融機関として、<br>70年以上の歴史とともに歩んでいます。
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>サービス</h4>
+        <ul>
+          <li><a href="#">住宅ローン</a></li>
+          <li><a href="#">事業融資</a></li>
+          <li><a href="#">資産運用</a></li>
+          <li><a href="#">カードローン</a></li>
+          <li><a href="#">ネットバンキング</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>金庫案内</h4>
+        <ul>
+          <li><a href="#">理念・ビジョン</a></li>
+          <li><a href="#">経営方針</a></li>
+          <li><a href="#">財務情報</a></li>
+          <li><a href="#">CSR活動</a></li>
+          <li><a href="#">採用情報</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>お役立ち</h4>
+        <ul>
+          <li><a href="#">店舗・ATM検索</a></li>
+          <li><a href="#">ローン試算</a></li>
+          <li><a href="#">金利一覧</a></li>
+          <li><a href="#">よくある質問</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 夕霧信用金庫 All Rights Reserved.</span>
+      <div class="footer-links">
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">サイトマップ</a>
+        <a href="#">アクセシビリティ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll animation observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
