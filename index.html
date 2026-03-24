@@ -7,6 +7,60 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
   <style>
+    /* ─── LOADING SCREEN ─── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--deep, #2c1810);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+
+    .loader-logo {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2rem;
+      color: #d4aa80;
+      letter-spacing: 0.2em;
+    }
+
+    .loader-bar-wrap {
+      width: 220px;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .loader-bar {
+      height: 100%;
+      background: #b8936a;
+      border-radius: 99px;
+      animation: loadBar 2.4s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+
+    @keyframes loadBar {
+      0%   { width: 0%; }
+      40%  { width: 55%; }
+      70%  { width: 72%; }
+      85%  { width: 73%; }
+      100% { width: 100%; }
+    }
+
+    .loader-msg {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: rgba(212,170,128,0.7);
+      min-height: 1.2em;
+      text-align: center;
+    }
+
     :root {
       --ink: #1a1410;
       --deep: #2c1810;
@@ -855,6 +909,13 @@
 </head>
 <body>
 
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-logo">夕霧信用金庫</div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+    <div class="loader-msg" id="loaderMsg">金庫の扉を開錠中...</div>
+  </div>
+
   <!-- HEADER -->
   <header>
     <div class="logo">
@@ -877,16 +938,16 @@
     <div class="hero-circle-3"></div>
     <div class="hero-kanji">信</div>
     <div class="hero-content">
-      <div class="hero-tag">夕霧信用金庫 ・ 地域とともに歩む</div>
+      <div class="hero-tag">夕霧信用金庫 ・ なんとなく安心できる金融機関</div>
       <h1 class="hero-title">
-        地域に根ざした<br>
-        <span>信頼</span>と<span>絆</span>で、<br>
-        未来をひらく。
+        なんか<span>安心</span>する、<br>
+        なんか<span>信頼</span>できる、<br>
+        なんか夕霧。
       </h1>
       <p class="hero-desc">
-        夕霧信用金庫は、昭和28年の創業以来、地域の皆さまの<br>
-        豊かな暮らしと産業の発展を支えてまいりました。<br>
-        変わらぬ誠実さで、これからも皆さまの隣に。
+        夕霧信用金庫は、昭和28年の創業以来、川島県今城市夕霧の皆さまの<br>
+        お金にまつわるあれこれを、それとなく支えてまいりました。<br>
+        行員全員が毎朝「信頼」と10回唱えてから業務を開始しています。
       </p>
       <div class="hero-buttons">
         <a href="#services" class="btn-primary">サービス一覧 →</a>
@@ -900,17 +961,17 @@
     <div class="marquee-track">
       <span class="marquee-item">個人向けローン</span>
       <span class="marquee-item">事業資金サポート</span>
-      <span class="marquee-item">資産運用相談</span>
+      <span class="marquee-item">なんとなく相談</span>
       <span class="marquee-item">住宅ローン</span>
       <span class="marquee-item">でんさいネット</span>
-      <span class="marquee-item">インターネットバンキング</span>
+      <span class="marquee-item">お金の話（全般）</span>
       <span class="marquee-item">相続・遺言サポート</span>
       <span class="marquee-item">個人向けローン</span>
       <span class="marquee-item">事業資金サポート</span>
-      <span class="marquee-item">資産運用相談</span>
+      <span class="marquee-item">なんとなく相談</span>
       <span class="marquee-item">住宅ローン</span>
       <span class="marquee-item">でんさいネット</span>
-      <span class="marquee-item">インターネットバンキング</span>
+      <span class="marquee-item">お金の話（全般）</span>
       <span class="marquee-item">相続・遺言サポート</span>
     </div>
   </div>
@@ -920,46 +981,46 @@
     <div class="services-header fade-up">
       <div>
         <div class="section-label">SERVICES</div>
-        <h2 class="section-title">充実したサービスで<br>皆さまの暮らしを支えます</h2>
+        <h2 class="section-title">たぶん必要なサービスが<br>だいたい揃っています</h2>
       </div>
-      <a href="#" class="btn-secondary" style="white-space:nowrap">すべてのサービス →</a>
+      <a href="#" class="btn-secondary" style="white-space:nowrap">全サービス（多め）→</a>
     </div>
     <div class="services-grid">
       <div class="service-card fade-up">
         <div class="service-num">01</div>
         <div class="service-icon">🏠</div>
         <div class="service-name">住宅ローン</div>
-        <p class="service-desc">低金利・長期返済でご家族の夢のマイホームを全力サポート。専任のアドバイザーが最適なプランをご提案します。</p>
+        <p class="service-desc">夢のマイホームを全力サポート。「広いリビング」という夢は叶えられますが、「毎月の返済」という現実もセットでついてきます。</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.1s">
         <div class="service-num">02</div>
         <div class="service-icon">💼</div>
         <div class="service-name">事業融資</div>
-        <p class="service-desc">地元中小企業・個人事業主の皆さまの成長を金融面から強力にバックアップ。創業融資・運転資金・設備投資に対応。</p>
+        <p class="service-desc">地元中小企業を金融面から応援します。「絶対に成功する自信があります」とおっしゃる方ほど、担当者がそっと資金計画書を確認します。</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.2s">
         <div class="service-num">03</div>
         <div class="service-icon">📈</div>
         <div class="service-name">資産運用</div>
-        <p class="service-desc">NISAや投資信託、個人年金保険まで、将来に向けた資産形成を丁寧にサポートします。</p>
+        <p class="service-desc">NISAや投資信託など将来に向けた資産形成を丁寧にサポート。「増えますか？」というご質問には「わかりません」と正直にお答えします。</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.3s">
         <div class="service-num">04</div>
         <div class="service-icon">🌿</div>
         <div class="service-name">カードローン</div>
-        <p class="service-desc">急な出費やまとまった費用にも、柔軟な審査と低利率でお応えします。会員様には特別金利をご用意。</p>
+        <p class="service-desc">急な出費にも柔軟に対応。「何に使うんですか」とは聞きません。ただし担当者の顔が少し曇ることはあります。</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.4s">
         <div class="service-num">05</div>
         <div class="service-icon">💻</div>
         <div class="service-name">ネットバンキング</div>
-        <p class="service-desc">いつでもどこでも残高照会・振込・税金の支払いが可能。スマートフォンアプリにも対応しています。</p>
+        <p class="service-desc">いつでもどこでも残高照会が可能。夜中に残高を確認して眠れなくなっても、当行では責任を負いかねます。</p>
       </div>
       <div class="service-card fade-up" style="transition-delay:0.5s">
         <div class="service-num">06</div>
         <div class="service-icon">🕊️</div>
         <div class="service-name">相続・遺言サポート</div>
-        <p class="service-desc">大切な財産を次世代へ。専門家と連携した相続相談・遺言信託サービスで安心のサポートを提供します。</p>
+        <p class="service-desc">大切な財産を次世代へ。「まだ早い」とよくおっしゃいますが、弊行的にはお早めにどうぞと申し上げております。</p>
       </div>
     </div>
   </section>
@@ -981,23 +1042,23 @@
     </div>
     <div class="about-text fade-up">
       <div class="section-label">ABOUT US</div>
-      <h2 class="section-title">地域の未来を、<br>ともに描く金融機関</h2>
+      <h2 class="section-title">地域の未来を、<br>なんとなく描く金融機関</h2>
       <p class="about-body">
-        夕霧信用金庫は昭和28年、地域の皆さまが出資し合って誕生した協同組織の金融機関です。株主の利益を最優先にする株式会社とは異なり、私たちは会員の皆さまと地域社会の繁栄を目的としています。<br><br>
-        創業以来70年以上にわたり、地域の中小企業や家庭に寄り添い、経済の変化や社会の転換期も地域の皆さまとともに乗り越えてきました。「夕霧」という名前には、夕暮れに立ちこめる霧のように、地域を穏やかに包み込みたいという思いを込めています。
+        夕霧信用金庫は昭和28年、川島県今城市夕霧の皆さまが出資し合って誕生した協同組織の金融機関です。株主の利益を最優先にする株式会社とは異なり、私たちは会員の皆さまの顔をなんとなく覚えていることを誇りとしています。<br><br>
+        創業以来70年以上にわたり、今城市を中心とした川島県内の中小企業や家庭に寄り添ってきました。なお「夕霧」という名前の由来については、当時の頭取が夕霧町の霧の中で道に迷ったことがきっかけという説がありますが、公式には否定されています。頭取本人も否定しています。
       </p>
       <div class="about-stats">
         <div class="about-stat-item">
           <span class="stat-val">4,200<span style="font-size:1rem">億円</span></span>
-          <span class="stat-lbl">預金残高</span>
+          <span class="stat-lbl">預金残高（たぶん）</span>
         </div>
         <div class="about-stat-item">
-          <span class="stat-val">2,800<span style="font-size:1rem">億円</span></span>
-          <span class="stat-lbl">貸出金残高</span>
+          <span class="stat-val">3<span style="font-size:1rem">店舗</span></span>
+          <span class="stat-lbl">よく迷われる支店</span>
         </div>
         <div class="about-stat-item">
-          <span class="stat-val">32,000<span style="font-size:1rem">社</span></span>
-          <span class="stat-lbl">会員事業者数</span>
+          <span class="stat-val">1<span style="font-size:1rem">匹</span></span>
+          <span class="stat-lbl">本店に住み着く猫</span>
         </div>
       </div>
     </div>
@@ -1016,32 +1077,57 @@
       <div class="news-item">
         <span class="news-date">2025.03.14</span>
         <span class="news-cat">重要</span>
-        <span class="news-title-text">2025年度 春のローン金利キャンペーンのご案内</span>
+        <span class="news-title-text">春のローン金利キャンペーン開始のお知らせ（桜が咲いたので）</span>
         <span class="news-arrow">→</span>
       </div>
       <div class="news-item">
         <span class="news-date">2025.03.10</span>
         <span class="news-cat">採用</span>
-        <span class="news-title-text">2026年度 新卒採用エントリー受付開始のお知らせ</span>
+        <span class="news-title-text">2026年度 新卒採用エントリー受付開始。「信頼」が好きな方、ぜひ。</span>
         <span class="news-arrow">→</span>
       </div>
       <div class="news-item">
         <span class="news-date">2025.03.05</span>
         <span class="news-cat">IR</span>
-        <span class="news-title-text">令和6年度 第3四半期 財務データの開示について</span>
+        <span class="news-title-text">令和6年度 第3四半期 財務データ公開。数字が苦手な方はスタッフまで。</span>
         <span class="news-arrow">→</span>
       </div>
       <div class="news-item">
         <span class="news-date">2025.02.28</span>
         <span class="news-cat">地域貢献</span>
-        <span class="news-title-text">「夕霧子ども食堂サポートファンド」への寄付実績のご報告</span>
+        <span class="news-title-text">本店に住み着いている猫「霧丸」が今年も元気だとのご報告</span>
         <span class="news-arrow">→</span>
       </div>
       <div class="news-item">
         <span class="news-date">2025.02.20</span>
         <span class="news-cat">システム</span>
-        <span class="news-title-text">インターネットバンキング リニューアルのお知らせ（3月30日予定）</span>
+        <span class="news-title-text">ネットバンキングをリニューアル予定。現行システムへのご冥福をお祈りします。</span>
         <span class="news-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAFF VOICE -->
+  <section style="background:var(--mist); padding:5rem 8rem;">
+    <div class="fade-up" style="text-align:center; margin-bottom:3rem;">
+      <div class="section-label" style="justify-content:center;">STAFF VOICE</div>
+      <h2 class="section-title" style="font-size:1.8rem;">行員の声（本音）</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2rem;" class="fade-up">
+      <div style="background:#fff; padding:2rem; border-radius:4px; border:1px solid rgba(184,147,106,0.15); position:relative;">
+        <div style="font-size:3rem; margin-bottom:0.5rem;">🧑‍💼</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:0.85rem; line-height:2; color:#5a4a3a; margin-bottom:1rem;">「お客さまに『ありがとう』と言っていただける瞬間が一番好きです。次点で昼の日替わり定食です。」</div>
+        <div style="font-size:0.68rem; letter-spacing:0.2em; color:var(--gold); font-family:'Noto Sans JP',sans-serif;">融資課 / 入行8年目</div>
+      </div>
+      <div style="background:#fff; padding:2rem; border-radius:4px; border:1px solid rgba(184,147,106,0.15);">
+        <div style="font-size:3rem; margin-bottom:0.5rem;">👩‍💼</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:0.85rem; line-height:2; color:#5a4a3a; margin-bottom:1rem;">「相続の相談で複雑な家族関係を聞くことがありますが、顔には出しません。出していないはずです。」</div>
+        <div style="font-size:0.68rem; letter-spacing:0.2em; color:var(--gold); font-family:'Noto Sans JP',sans-serif;">渉外課 / 入行12年目</div>
+      </div>
+      <div style="background:#fff; padding:2rem; border-radius:4px; border:1px solid rgba(184,147,106,0.15);">
+        <div style="font-size:3rem; margin-bottom:0.5rem;">🧓</div>
+        <div style="font-family:'Shippori Mincho',serif; font-size:0.85rem; line-height:2; color:#5a4a3a; margin-bottom:1rem;">「金庫の扉を閉める瞬間が好きです。あの"ガチャン"という音に、今日も無事終わったという実感があります。」</div>
+        <div style="font-size:0.68rem; letter-spacing:0.2em; color:var(--gold); font-family:'Noto Sans JP',sans-serif;">庶務課 / 入行31年目</div>
       </div>
     </div>
   </section>
@@ -1051,7 +1137,7 @@
     <div class="cta-text">
       <div class="section-label">CONTACT</div>
       <h2 class="section-title">お気軽にご相談ください</h2>
-      <p>住宅ローン、事業資金、老後の資産設計まで、経験豊富な担当者が丁寧にお答えします。来店予約、電話相談、オンライン面談など多様な方法でご対応しています。</p>
+      <p>住宅ローン、事業資金、老後の資産設計まで、経験豊富な担当者が丁寧にお答えします。「何となく不安」というご相談も歓迎しております。実際、そういったご相談が一番多いです。</p>
     </div>
     <div class="cta-actions">
       <a href="#" class="btn-gold">来店予約はこちら</a>
@@ -1068,7 +1154,7 @@
         <p class="footer-about">
           〒XXX-XXXX 川島県今城市夕霧町中央1-1-1<br>
           TEL：0120-XXX-XXX（平日 9:00〜17:00）<br><br>
-          地域に寄り添う金融機関として、<br>70年以上の歴史とともに歩んでいます。
+          地域に寄り添う金融機関として、<br>70年以上なんとかやってきています。
         </p>
       </div>
       <div class="footer-col">
@@ -1113,15 +1199,37 @@
   </footer>
 
   <script>
-    // Scroll animation observer
+    // ─── LOADER ───
+    const msgs = [
+      '金庫の扉を開錠中...',
+      '地域への愛を確認中...',
+      '信頼を計量中...',
+      '行員の笑顔を準備中...',
+      '完了しました（たぶん）',
+    ];
+    let mi = 0;
+    const msgEl = document.getElementById('loaderMsg');
+    const interval = setInterval(() => {
+      mi++;
+      if (mi < msgs.length) msgEl.textContent = msgs[mi];
+    }, 480);
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        clearInterval(interval);
+        msgEl.textContent = '完了しました（たぶん）';
+        setTimeout(() => {
+          document.getElementById('loader').classList.add('hidden');
+        }, 500);
+      }, 2400);
+    });
+
+    // ─── SCROLL ANIMATION ───
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(el => {
-        if (el.isIntersecting) {
-          el.target.classList.add('visible');
-        }
+        if (el.isIntersecting) el.target.classList.add('visible');
       });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   </script>
 </body>
